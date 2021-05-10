@@ -1,6 +1,6 @@
 package java_20210510;
 
-public class CallByValueRefDemo {
+public class CallByValueRefDemo{
 	public static void ascending(int[] temp) {
 		for (int i = 0; i < temp.length; i++) {
 			for (int j = 0; j < temp.length - (i + 1); j++) {
