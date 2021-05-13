@@ -43,6 +43,8 @@ public class SetDemo {
 			Integer temp = (Integer)i2.next();//해당 객체를 가져온다.
 			System.out.print(temp+"\t");
 		}
+		System.out.println();
+		
 		
 		
 	}
