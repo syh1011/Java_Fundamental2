@@ -2,9 +2,9 @@ package java_20210512;
 
 public class StringDemo {
 	public static String reverse(String str) {
-		String temp ="";
+		String temp =new String("");
 		for(int i=str.length()-1;i>-1;i--) {
-			temp += str.substring(i,i+1);
+			temp = temp.concat(str.substring(i,i+1));
 		}
 		return temp;
 	}
@@ -15,7 +15,6 @@ public class StringDemo {
 	}
 	public static void main(String[] args) {
 		String str = "beautiful";// =>"lufituaeb";
-		System.out.println(str.substring(1,2));
 		String str5 = reverse(str);
 		System.out.println(str5);
 		int a = 10;
