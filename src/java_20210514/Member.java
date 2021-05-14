@@ -5,7 +5,7 @@ public class Member {
 	private String name;
 	private int age;
 	
-	public Member() {
+	public Member() {//
 		super();
 		// TODO Auto-generated constructor stub
 	}
