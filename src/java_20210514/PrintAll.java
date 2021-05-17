@@ -44,7 +44,7 @@ public class PrintAll {
 		}
 	}
 	
-	public static void scanDir(String folderPath, List<String> listFile) { 
+	public static void scanDir(String folderPath, ArrayList<String> listFile) { 
 		File[] files = new File(folderPath).listFiles(); 
 		for(File f : files) { 
 			if(f.isDirectory()) { 
@@ -57,8 +57,8 @@ public class PrintAll {
 			
 	public static void main(String[] args) throws IOException {
 		
-		List<String> listFile = new ArrayList<String>(); 
-		scanDir("C:\\Users\\3-20\\eclipse-workspace\\Java_Fundamental\\src", listFile); // 필자가 만든 폴더이다 
+		ArrayList<String> listFile = new ArrayList<String>(); 
+		scanDir("C:\\Users\\3-20\\eclipse-workspace\\Java_Fundamental\\src", listFile); 
 		for(String path : listFile) { 
 			print(path); 
 			System.out.println(path);
