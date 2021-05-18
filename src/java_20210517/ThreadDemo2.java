@@ -1,7 +1,5 @@
 package java_20210517;
-
 import java.awt.FlowLayout;
-
 
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
@@ -44,7 +42,7 @@ public class ThreadDemo2 extends Thread{
         try {
             for (i = 0; i <= 100; i++) {
             	jpb.setValue(i);
-                Thread.sleep((int)(Math.random()*100));// 밀리세컨드 단위로
+                Thread.sleep((int)(Math.random()*500));// 밀리세컨드 단위로
                 // 지연시간을 설정.
             }
         } catch (InterruptedException ie) {
