@@ -1,37 +1,35 @@
 package java_20210520;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileReaderWriterDemo {
+public class BufferedReaderWriterDemo {
 	public static void main(String[] args) {
 		FileReader fr = null;
+		BufferedReader br = null;
+		
 		FileWriter fw = null;
+		BufferedWriter bw = null;
 		
 		try {
 			fr = new FileReader(
-				"C:\\dev\\test\\2021\\05\\18\\FileDemo.java");
-			fw = new FileWriter(
-				"C:\\dev\\test\\2021\\05\\18\\FileDemo-copy.java",true);
-			/*
-			int readChar = 0;
-			//read() : 한개의 문자를 읽는다.
-			while((readChar = fr.read()) != -1) {
-				System.out.print((char)readChar);
-				//write() : 한개의 문자를 쓴다.
-				fw.write(readChar);
-			}
-			*/
-			int readCharCount = 0;
-			char[] readChars = new char[1024];
-			System.out.println(readChars);
-			while((readCharCount = fr.read(readChars)) != -1) {
-				System.out.println(readChars);
-				fw.write(readChars,0,readCharCount);
-			}
+			"C:\\dev\\test\\2021\\05\\18\\FileDemo.java");
+			br = new BufferedReader(fr);
 			
+			fw = new FileWriter(
+			"C:\\dev\\test\\2021\\05\\18\\FileDemo-copy1.java");
+			bw = new BufferedWriter(fw);
+			String readLine = null;
+			while((readLine = br.readLine()) != null) {
+				System.out.println(readLine);
+				bw.write(readLine);//readLine 변수에는 개행을 포함X
+				bw.newLine();//개행을 넣어준다.(window -\r\n, unix - \n)
+			}
+			bw.flush();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,16 +39,21 @@ public class FileReaderWriterDemo {
 		} finally {
 			try {
 				if(fr != null) fr.close();
+				if(br != null) br.close();
+				
 				if(fw != null) fw.close();
+				if(bw != null) bw.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		
+		
+		
 	}
 }
-
-
 
 
 
