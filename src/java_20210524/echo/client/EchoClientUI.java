@@ -68,10 +68,10 @@ public class EchoClientUI implements ActionListener{
 		j2.setBackground(new Color(233,129,56));
 		/*****************상단 끝 ***********************/
 		/**********************************************/
-		jframe.add(jta, BorderLayout.CENTER);
+		jframe.add(jsp, BorderLayout.CENTER);
 		jframe.add(j1, BorderLayout.SOUTH);
 		jframe.add(j2, BorderLayout.NORTH);
-		
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		jframe.pack();
 		jframe.setResizable(true);
