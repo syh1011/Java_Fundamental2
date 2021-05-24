@@ -1,7 +1,6 @@
 package java_20210521;
 
 import java.io.IOException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +10,6 @@ import org.jsoup.nodes.Document;
 
 public class CoinMarketCapCrawlingDemo {
 	public static void main(String[] args) {
-		
 		Document doc = null;
 		String url = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/historical";
 		String jsonStr = null;
@@ -25,6 +23,8 @@ public class CoinMarketCapCrawlingDemo {
                     .userAgent("Mozilla")
                     .ignoreContentType(true)
                     .execute().body();
+			
+			System.out.println(jsonStr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
