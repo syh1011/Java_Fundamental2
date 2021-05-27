@@ -7,7 +7,7 @@ public class MemberDto {
 	private int num;
 	private String name; 
 	private String addr;
-	public MemberDto() {
+	public MemberDto() {//default constructor = 매개변수 없는 생성
 		super();
 		// TODO Auto-generated constructor stub
 	}

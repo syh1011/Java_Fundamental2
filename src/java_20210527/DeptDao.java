@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MemberDao {
-	// 1. MemberDao 변수인 single을 static 변수로 설정
-	private static MemberDao single;
+public class DeptDao {
+	// singleton
+	private static DeptDao single;
 
-	// 2. 생성자의 접근한정자를 private으로 설정
-	// 이유 : 외부에서 객체생성 못하게 하기 위함
-	private MemberDao() {
+	private DeptDao() {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -22,21 +20,15 @@ public class MemberDao {
 		}
 	}
 
-	// MemberDao의 객체는 getInstance() 메서드로만 생성
-	// getInstance() 메서드의 구현은 MemberDao 객체를 한개만 생성할 수
-	// 있도록 만들어야함.
-	// static 메서드로 구현한 이유는 MemberDao객체를 외부에서 생성할 수
-	// 없기 때문
-	public static MemberDao getInstance() {
+	public static DeptDao getInstance() {
 		if (single == null) {
-			single = new MemberDao();
+			single = new DeptDao();
 		}
 		return single;
 	}
 
-	public boolean insert(MemberDto dto) {
+	public boolean insert(DeptDto dto) {
 		boolean success = false;
-		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -44,15 +36,17 @@ public class MemberDao {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/kpc", // url
 					"kpc12", // user
 					"kpc1212");// password
+			
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO member(num, NAME, addr) ");
+			sql.append("INSERT INTO dept(deptno, dname, loc) ");
 			sql.append("VALUES (?,?,?)");
 
 			pstmt = con.prepareStatement(sql.toString());
+			
 			int index = 1;
-			pstmt.setInt(index++, dto.getNum());
+			pstmt.setInt(index++, dto.getNo());
 			pstmt.setString(index++, dto.getName());
-			pstmt.setString(index, dto.getAddr());
+			pstmt.setString(index, dto.getLoc());
 
 			pstmt.executeUpdate();
 			success = true;
@@ -74,34 +68,33 @@ public class MemberDao {
 		return success;
 	}
 
-	public boolean update(MemberDto dto) {
+	public boolean update(DeptDto dto) {
 		boolean success = false;
-		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost/kpc", "kpc12", "kpc1212");
-			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE member ");
-			sql.append("SET NAME =?, addr =?  ");
-			sql.append("WHERE num = ? ");
-			pstmt = con.prepareStatement(sql.toString());
 			
+			con = DriverManager.getConnection("jdbc:mysql://localhost/kpc", "kpc12", "kpc1212");
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE dept ");
+			sql.append("SET dname =?, loc =?  ");
+			sql.append("WHERE deptno = ? ");
+			
+			pstmt = con.prepareStatement(sql.toString());
+
 			int index = 1;
 			pstmt.setString(index++, dto.getName());
-			pstmt.setString(index++, dto.getAddr());
-			pstmt.setInt(index, dto.getNum());
+			pstmt.setString(index++, dto.getLoc());
+			pstmt.setInt(index, dto.getNo());
 
 			pstmt.executeUpdate();
 			success = true;
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-
 			try {
-				// 6. 모든자원을 반납한다.
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
@@ -112,35 +105,35 @@ public class MemberDao {
 		return success;
 	}
 
-	public boolean delete(int num) {
+	public boolean delete(int no) {
 		boolean success = false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
-			con = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/kpc",
-				"kpc12","kpc1212");
-			
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/kpc", "kpc12", "kpc1212");
+
 			StringBuilder sql = new StringBuilder();
 			sql.append("DELETE FROM dept ");
 			sql.append("WHERE deptno = ? ");
-			pstmt = con.prepareStatement(sql.toString());			
-			
+
+			pstmt = con.prepareStatement(sql.toString());
+
 			int index = 1;
-			pstmt.setInt(index, num);
-			
+			pstmt.setInt(index, no);
 			pstmt.executeUpdate();
 			success = true;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
-				//6. 모든 자원을 반납
-				if(con != null) con.close();
-				if(pstmt != null) pstmt.close();
+				// 6. 모든 자원을 반납
+				if (con != null)
+					con.close();
+				if (pstmt != null)
+					pstmt.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,62 +142,53 @@ public class MemberDao {
 		return success;
 	}
 
-	public ArrayList<MemberDto> select(int start , int len) {
-		ArrayList<MemberDto> list = new ArrayList<MemberDto>();
+	public ArrayList<DeptDto> select(int start, int len) {
+		ArrayList<DeptDto> list = new ArrayList<DeptDto>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost/kpc",
-					"kpc12","kpc1212");
-			
+			con = DriverManager.getConnection("jdbc:mysql://localhost/kpc", "kpc12", "kpc1212");
+
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT num, NAME, addr ");
-			sql.append("FROM member ");
-			sql.append("ORDER BY num desc ");
+			sql.append("SELECT deptno, dname, loc ");
+			sql.append("FROM dept ");
+			sql.append("ORDER BY deptno asc ");
 			sql.append("LIMIT ?,? ");
+
 			pstmt = con.prepareStatement(sql.toString());
-			
+
 			int index = 1;
 			pstmt.setInt(index++, start);
 			pstmt.setInt(index, len);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+			while (rs.next()) {
 				index = 1;
-				int num = rs.getInt(index++);// or rs.getInt("num");
-				String name = rs.getString(index++);//rs.getString("name");
-				String addr = rs.getString(index);//rs.getString("addr");
-				list.add(new MemberDto(num, name, addr));
+				int no = rs.getInt(index++);
+				String name = rs.getString(index++);
+				String loc = rs.getString(index);
+				list.add(new DeptDto(no, name, loc));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			
+
 			try {
-				if(con != null) con.close();
-				if(pstmt != null) pstmt.close();
-				if(rs != null) rs.close();
+				if (con != null)
+					con.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (rs != null)
+					rs.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		return list;
 	}
+
 }
